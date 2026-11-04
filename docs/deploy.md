@@ -1,33 +1,59 @@
-# 新 analyze の公開と移行(Xserver)
+# 新 analyze の公開(旧 analyze.nnts.jp に上書き)
 
-旧 analyze.nnts.jp はそのまま残し、新システムは別の場所で並行運用する。
+方針: 旧サイト一式は**消さずに公開フォルダの外へ退避**し、空いた場所に新システムを置く。
+旧DB(sakegura.db)は読み取るだけで変更しない。問題があれば、フォルダを戻すだけで旧サイトに戻せる。
 
-## 1. 置き場所を作る
-- Xserver のサーバーパネルでサブドメイン(例: `analyze2.nnts.jp`)を追加し、無料SSLを有効にする。
-- このリポジトリの中身を、そのサブドメインの公開フォルダにアップロードする(`data/*.db` は含めない)。
-- `data/` フォルダが PHP から書き込めることを確認する(通常は 755 でよい)。
+パス(サーバーID xs684527):
+- 公開フォルダ: `/home/xs684527/nnts.jp/public_html/analyze.nnts.jp`
+- Basic認証: `/home/xs684527/nnts.jp/htpasswd/analyze.nnts.jp/.htpasswd`(新しい .htaccess でも同じものを使う)
 
-## 2. 旧データを移行する(SSH)
+## 1. 旧サイトを丸ごとバックアップ(SSH)
 ```sh
-cd ~/nnts.jp/public_html/analyze2.nnts.jp     # 置いた場所に合わせる
-php bin/migrate_from_old.php ~/nnts.jp/public_html/analyze.nnts.jp/data/sakegura.db data/analyze.db
+cd ~/nnts.jp/public_html
+tar czf ~/analyze_old_20261104.tar.gz analyze.nnts.jp
+ls -la ~/analyze_old_20261104.tar.gz
 ```
-- 旧DBは読み取りのみで、変更しない。
-- 最後に「突き合わせはすべて一致しました」と出ればOK。差が出たら、表示された項目を確認する。
-- パスワードは旧システムと同じものでログインできる。
-- 並行運用中に旧システムへ入力した分を取り込み直すときは、`--force` を付けて作り直す(新システム側で入力した分は消えるので注意)。
 
-## 3. 日次バックアップ(cron)
-サーバーパネル → Cron設定 に追加(毎日 3:30 の例):
+## 2. 新システムを公開フォルダの外で準備し、移行する
+```sh
+cd ~
+rm -rf analyze_new && unzip -q analyze_new.zip            # ~/analyze_new ができる
+php -v                                                     # 8.x でなければ以降 php8.3 に置き換え
+php analyze_new/bin/migrate_from_old.php ~/nnts.jp/public_html/analyze.nnts.jp/data/sakegura.db analyze_new/data/analyze.db
+chmod +x analyze_new/bin/backup.sh
 ```
-30 3 * * * /home/<サーバーID>/nnts.jp/public_html/analyze2.nnts.jp/bin/backup.sh >> /home/<サーバーID>/nnts.jp/public_html/analyze2.nnts.jp/data/backup.log 2>&1
-```
-- `data/backup/` に 30日分を残す。Webからは見えない(`data/.htaccess`)。
+「突き合わせはすべて一致しました」と出るまで次に進まない。
 
-## 4. 移行後にやること
+## 3. 入れ替える(数秒で終わる)
+```sh
+cd ~/nnts.jp/public_html
+mv analyze.nnts.jp ~/analyze_old_site                      # 旧サイトを公開フォルダの外へ(そのまま残る)
+mv ~/analyze_new analyze.nnts.jp
+```
+
+### 元に戻すとき
+```sh
+cd ~/nnts.jp/public_html
+mv analyze.nnts.jp ~/analyze_new_failed
+mv ~/analyze_old_site analyze.nnts.jp
+```
+
+## 4. 確認
+- https://analyze.nnts.jp を開く → Basic認証 → 新システムのログイン(パスワードは旧システムと同じ)。
+- https://analyze.nnts.jp/data/analyze.db が 403 になること(DBが外から見えない)。
+
+## 5. 日次バックアップ(cron)
+サーバーパネル → Cron設定 に追加(毎日 3:30):
+```
+30 3 * * * /home/xs684527/nnts.jp/public_html/analyze.nnts.jp/bin/backup.sh >> /home/xs684527/nnts.jp/public_html/analyze.nnts.jp/data/backup.log 2>&1
+```
+`data/backup/` に30日分を残す。Webからは見えない。
+
+## 6. 移行後にやること
 - 在庫・棚卸し → 各資材の「履歴」で、最新の仕入の金額を入れる(旧システムには金額がないため。入れるまで評価額は0円)。
-- マスタ管理 → 資材: 瓶は「容量」、ラベルは「SKU」を設定する。乳酸・酵母などは必要なら「詰口1mlあたり使用量」を設定する。
-- ロット未設定だった旧データの詰口は、酒税の月別一覧に出ない(旧システムでは納付済扱い)。
+- マスタ管理 → 資材: 瓶は「容量」、ラベルは「SKU」を設定。乳酸・酵母などは必要なら「詰口1mlあたり使用量」を設定。
+- ロット未設定だった旧データの詰口8件は、酒税の月別一覧に出ない(旧システムでは納付済扱い)。
+- 旧サイト(~/analyze_old_site)と バックアップ(~/analyze_old_20261104.tar.gz)は、しばらく残しておく。
 
 ## 移行の対応(参考)
 | 旧 | 新 |

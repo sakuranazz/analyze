@@ -1,3 +1,9 @@
+# Xserver のアクセス制限(Basic認証)。旧 analyze.nnts.jp と同じ設定を引き継ぐ
+AuthUserFile "/home/xs684527/nnts.jp/htpasswd/analyze.nnts.jp/.htpasswd"
+AuthName "Member Site"
+AuthType BASIC
+require valid-user
+
 # ディレクトリ一覧を出さない
 Options -Indexes
 
