@@ -21,5 +21,6 @@ material_categories / materials / skus / inventory_ledger / process_events / ana
 - 持ち込む: 分析入力、詰口入力、工程入力(在庫自動増減)、SKU/ロット作番、マスタ、酒税(ロット別)、年度別サマリ
 - 新規: 棚卸し(原材料・瓶・ラベル、最終仕入原価法、月次、8月末決算)、1ml原価、日次バックアップ
 - 見直し: 年度アーカイブ(4〜3月固定)→日付・月持ちで表示時集計
-- 削除候補: ingredient_codes(旧項目)、skus.jan_code、*.sku_id(未使用・互換用)
+- 削除候補: skus.jan_code、*.sku_id(未使用・互換用)、brewing_lots.ingredient_code_id(ロットでは未使用)
+- 訂正: ingredient_codes はSKUコード(酒類-原料_容量)に使われているため残す
 - 未確認: 実際に使っている項目の取捨(どの項目を持ち込むか、ご確認ください)

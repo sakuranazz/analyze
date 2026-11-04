@@ -34,6 +34,7 @@ CREATE TABLE sales_channels (
 );
 
 -- 作番コード体系
+CREATE TABLE ingredient_codes (id INTEGER PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL, sort_order INTEGER DEFAULT 0);  -- SKU用の原料コード(例 GEN, ICH)
 CREATE TABLE sku_liquor_codes (id INTEGER PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL, description TEXT, sort_order INTEGER DEFAULT 0);
 CREATE TABLE sku_capacity_codes (id INTEGER PRIMARY KEY, value TEXT NOT NULL UNIQUE, sort_order INTEGER DEFAULT 0);
 CREATE TABLE lot_liquor_codes (id INTEGER PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL, sort_order INTEGER DEFAULT 0);

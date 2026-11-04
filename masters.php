@@ -28,6 +28,16 @@ $defs = [
         'fields' => [['name', '名称', 'text', true], ['address', '住所', 'text', false]]],
     'channels' => ['table' => 'sales_channels', 'label' => '販売先', 'order' => 'sort_order, id',
         'fields' => [['label', '名称', 'text', true], ['category', '区分', 'select', true, $channelCategories], ['address', '住所', 'text', false]]],
+    'sku_liquor' => ['table' => 'sku_liquor_codes', 'label' => 'SKU酒類コード', 'order' => 'sort_order, id',
+        'fields' => [['code', 'コード(例 SK)', 'text', true], ['name', '名称', 'text', true], ['description', '説明', 'text', false], ['sort_order', '並び順', 'number', false]]],
+    'sku_ingredient' => ['table' => 'ingredient_codes', 'label' => 'SKU原料コード', 'order' => 'sort_order, id',
+        'fields' => [['code', 'コード(例 ICH)', 'text', true], ['name', '名称', 'text', true], ['sort_order', '並び順', 'number', false]]],
+    'sku_capacity' => ['table' => 'sku_capacity_codes', 'label' => 'SKU容量コード', 'order' => 'sort_order, id',
+        'fields' => [['value', 'コード(例 720)', 'text', true], ['sort_order', '並び順', 'number', false]]],
+    'lot_liquor' => ['table' => 'lot_liquor_codes', 'label' => 'ロット酒類コード', 'order' => 'sort_order, id',
+        'fields' => [['code', 'コード(例 SK)', 'text', true], ['name', '名称', 'text', true], ['sort_order', '並び順', 'number', false]]],
+    'tanks' => ['table' => 'tank_codes', 'label' => 'タンクコード', 'order' => 'sort_order, id',
+        'fields' => [['code', 'コード(例 L1501)', 'text', true], ['name', '名称', 'text', true], ['sort_order', '並び順', 'number', false]]],
 ];
 
 $t = $_GET['t'] ?? 'materials';

@@ -12,10 +12,12 @@ $navItems = [
         ['分析結果入力', 'analysis_input.php'],
         ['工程入力', 'process_input.php'],
         ['詰口・出荷入力', 'bottling_input.php'],
+        ['SKU・ロット作番', 'codes.php'],
     ]],
     ['label' => '帳簿・集計', 'items' => [
         ['在庫・棚卸し', 'stocktake.php'],
         ['詰口台帳', 'bottling_results.php'],
+        ['SKU・ロット一覧', 'sku_lot_list.php'],
         ['酒税', 'tax.php'],
     ]],
     ['label' => '設定', 'items' => [
