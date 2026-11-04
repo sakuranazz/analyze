@@ -1,5 +1,13 @@
-data/*.db
-data/*.db-wal
-data/*.db-shm
-data/backup/
-data/*.log
+# 本番・手元で作られるもの(リポジトリに入れない)
+config/config.local.php
+public/_app_root.php
+var/data/
+var/backup/
+var/log/
+var/exports/
+var/maintenance.flag
+*.db
+*.db-wal
+*.db-shm
+.DS_Store
+__MACOSX/

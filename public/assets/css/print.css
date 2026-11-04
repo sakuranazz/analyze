@@ -1,0 +1,22 @@
+/* 印刷（DESIGN.md 7章）。A4縦・余白15mm・10pt。常にライト */
+@page { size: A4 portrait; margin: 15mm; }
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff !important; color: #000 !important; font-size: 10pt; }
+  .appbar, .sidebar, .no-print, .toast, .btn, .tabs, .filter-chips, form.filters { display: none !important; }
+  .shell { display: block; }
+  .main { padding: 0; max-width: none; }
+  .card { border: 0; }
+  .table { font-size: 9pt; }
+  .table th, .table td { height: auto; padding: 3px 5px; border-bottom: 0.5pt solid #000; color: #000 !important; }
+  .table thead { display: table-header-group; }
+  .table thead th { position: static; background: #eee !important; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .table tr { break-inside: avoid; }
+  .chip { border: 0; background: none; padding: 0; }
+  .badge { background: none !important; padding: 0; color: #000 !important; }
+  .chart-box { height: 160px; break-inside: avoid; }
+  a { color: #000; text-decoration: none; }
+}
+.print-head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1pt solid currentColor; padding-bottom: 4px; margin-bottom: 8px; }
+.print-head h1 { font-size: 16pt; }
+.print-head .meta { font-size: 9pt; text-align: right; }

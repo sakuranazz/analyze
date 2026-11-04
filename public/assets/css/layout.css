@@ -1,0 +1,64 @@
+/* 全体の枠（DESIGN.md 3章）。上に赤茶の帯、左にメニュー */
+.appbar {
+  position: sticky; top: 0; z-index: 20;
+  height: var(--appbar-h);
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: 0 var(--sp-5);
+  background: #A84B43; color: #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / .15);
+}
+.appbar__title { color: #fff; text-decoration: none; font-size: var(--fs-xl); font-weight: 600; letter-spacing: .02em; }
+.appbar__title:hover { color: #fff; }
+.appbar__env { font-size: var(--fs-xs); background: rgb(255 255 255 / .2); border-radius: var(--radius-sm); padding: 2px 8px; }
+.appbar__menu { display: none; background: none; border: 0; color: #fff; width: 44px; height: 44px; align-items: center; justify-content: center; margin-left: calc(-1 * var(--sp-3)); }
+@media (prefers-color-scheme: dark) { .appbar { background: #5C2A25; } }
+
+.shell { display: flex; min-height: calc(100vh - var(--appbar-h)); }
+.sidebar {
+  width: var(--sidebar-w); flex: none;
+  background: var(--surface); border-right: 1px solid var(--border);
+  padding: var(--sp-5) var(--sp-3);
+  display: flex; flex-direction: column; gap: var(--sp-5);
+  position: sticky; top: var(--appbar-h); height: calc(100vh - var(--appbar-h)); overflow-y: auto;
+}
+.sidebar__group { display: flex; flex-direction: column; gap: 2px; }
+.sidebar__label { font-size: var(--fs-xs); color: var(--text-muted); padding: 0 var(--sp-3) var(--sp-1); }
+.sidebar__rule { margin: 0 var(--sp-3) var(--sp-2); }
+.sidebar__item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px var(--sp-3); border-radius: var(--radius-sm);
+  color: var(--text); text-decoration: none; font-size: 0.906rem;
+}
+.sidebar__item:hover { background: var(--surface-2); color: var(--text); }
+.sidebar__item.is-current { background: var(--primary-soft); color: var(--primary); font-weight: 600; box-shadow: inset 3px 0 0 var(--primary); }
+.sidebar__item .count {
+  margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px;
+  background: var(--danger); color: #fff; font-size: var(--fs-xs); font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+.main { flex: 1; min-width: 0; padding: var(--sp-6) var(--sp-6) var(--sp-7); display: flex; flex-direction: column; gap: var(--sp-5); max-width: 1280px; }
+
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; }
+.page-head__sub { color: var(--text-muted); font-size: var(--fs-sm); margin-top: var(--sp-1); }
+.page-head__actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+
+/* 641〜1023px: メニューを閉じてハンバーガー */
+@media (max-width: 1023px) {
+  .appbar__menu { display: inline-flex; }
+  .sidebar {
+    position: fixed; left: 0; top: var(--appbar-h); z-index: 30; height: calc(100vh - var(--appbar-h));
+    transform: translateX(-100%); transition: transform .15s ease; box-shadow: var(--shadow);
+  }
+  .sidebar.is-open { transform: none; }
+  .main { padding: var(--sp-5) var(--sp-4) var(--sp-7); }
+}
+
+/* スマホ優先の入力画面（分析結果入力） */
+.is-narrow .main { max-width: 480px; margin: 0 auto; padding: var(--sp-4) var(--sp-4) 120px; }
+@media (min-width: 1024px) { .is-narrow .main { margin: 0 auto 0 0; padding-left: var(--sp-6); } }
+@media (max-width: 640px) {
+  .appbar { padding: 0 var(--sp-4); }
+  .appbar__title { font-size: var(--fs-lg); }
+  h1 { font-size: var(--fs-xl); }
+}

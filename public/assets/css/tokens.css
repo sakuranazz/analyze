@@ -1,0 +1,78 @@
+/* デザイントークン（DESIGN.md 2章）。この表以外の色・余白・サイズを画面側で作らない */
+:root {
+  color-scheme: light dark;
+
+  --bg: #F8F6F2;
+  --surface: #FFFFFF;
+  --surface-2: #F3ECE4;
+  --border: #E4DDD2;
+  --border-strong: #8E897A;
+  --text: #2B2625;
+  --text-muted: #6B635E;
+  --primary: #A84B43;
+  --primary-hover: #8E3B33;
+  --primary-soft: #F4E4E1;
+  --on-primary: #FFFFFF;
+  --heading: #8E3B33;
+  --sun: #E8A317;
+  --ok: #2F7D4F;
+  --ok-soft: #E4F2E9;
+  --warn: #8A5300;
+  --warn-soft: #FFF1D6;
+  --danger: #B3261E;
+  --danger-soft: #FBE7E5;
+  --focus: #A84B43;
+
+  --chart-1: #A84B43;
+  --chart-2: #2A7F86;
+  --chart-3: #B8862B;
+  --chart-4: #2F4A6E;
+  --chart-5: #7B6A8F;
+  --chart-6: #4F7F3A;
+  --bar-sample: #C2A15A;
+  --bar-rest: #E8E4D8;
+
+  --font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --fs-xs: 0.75rem;   /* 12 */
+  --fs-sm: 0.8125rem; /* 13 */
+  --fs-base: 0.9375rem; /* 15 */
+  --fs-lg: 1.125rem;  /* 18 */
+  --fs-xl: 1.375rem;  /* 22 */
+  --fs-2xl: 1.75rem;  /* 28 */
+
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --shadow: 0 8px 24px rgb(0 0 0 / .12);
+  --control-h: 36px;
+  --sidebar-w: 240px;
+  --appbar-h: 56px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181D;
+    --surface: #1D2128;
+    --surface-2: #252A33;
+    --border: #323946;
+    --border-strong: #5A6272;
+    --text: #E6E8EB;
+    --text-muted: #A0A7B3;
+    --primary: #E8A59D;
+    --primary-hover: #F2BDB6;
+    --primary-soft: #3D2421;
+    --on-primary: #1D1514;
+    --heading: #F2BDB6;
+    --ok: #6CC38D; --ok-soft: #1E3328;
+    --warn: #F0B24A; --warn-soft: #3A2C12;
+    --danger: #FF8A80; --danger-soft: #3D1F1D;
+    --focus: #E8A59D;
+    --chart-1: #E8A59D; --chart-2: #6FC3C9; --chart-3: #E2BC6A; --chart-4: #8DB1E0; --chart-5: #B9A6D1; --chart-6: #9CCB86;
+    --bar-sample: #9C8448; --bar-rest: #323946;
+  }
+}
+
+@media (max-width: 640px) {
+  :root { --control-h: 48px; }
+}

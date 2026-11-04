@@ -1,0 +1,2 @@
+# DB・バックアップ・ログは URL から取得させない（CLAUDE.md 2章）。本来は公開ディレクトリの外に置く
+Require all denied

@@ -1,0 +1,10 @@
+/* 読み込み順を @layer で固定する（DESIGN.md 1.3）。ビルド工程なし */
+@layer reset, tokens, base, layout, components, pages, print;
+
+@import url("reset.css") layer(reset);
+@import url("tokens.css") layer(tokens);
+@import url("base.css") layer(base);
+@import url("layout.css") layer(layout);
+@import url("components.css") layer(components);
+@import url("pages.css") layer(pages);
+@import url("print.css") layer(print);
