@@ -50,3 +50,10 @@ input[type=text], input[type=password], input[type=number], select {
 .muted { color: var(--muted); }
 .login-box { max-width: 360px; margin: 80px auto; }
 .inline { display: inline; }
+
+/* 印刷: 操作部分を隠す */
+@media print {
+    .topbar, .no-print { display: none !important; }
+    body { background: #fff; }
+    .panel { border: 0; padding: 0; }
+}

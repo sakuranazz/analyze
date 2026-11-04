@@ -83,3 +83,27 @@ function fmtQty($v): string {
 function validDate(string $d): bool {
     return (bool)preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $d, $m) && checkdate((int)$m[2], (int)$m[3], (int)$m[1]);
 }
+
+// ===== 年度(酒類の報告用。開始月は設定 fiscal_start_month、既定4月) =====
+function fiscalStartMonth(PDO $pdo): int {
+    $m = (int)getSetting($pdo, 'fiscal_start_month', 4);
+    return ($m >= 1 && $m <= 12) ? $m : 4;
+}
+
+/** 日付が属する年度の開始年 */
+function fiscalYearOf(string $date, int $startMonth): int {
+    $y = (int)substr($date, 0, 4);
+    return (int)substr($date, 5, 2) >= $startMonth ? $y : $y - 1;
+}
+
+/** 年度開始年 → [開始日, 終了日] */
+function fiscalRange(int $startYear, int $startMonth): array {
+    $start = new DateTime(sprintf('%04d-%02d-01', $startYear, $startMonth));
+    $end = (clone $start)->modify('+1 year')->modify('-1 day');
+    return [$start->format('Y-m-d'), $end->format('Y-m-d')];
+}
+
+function fiscalYearLabel(int $startYear, int $startMonth): string {
+    [$s, $e] = fiscalRange($startYear, $startMonth);
+    return $startMonth === 1 ? "{$startYear}年" : "{$startYear}年度(" . (int)substr($s, 5, 2) . '月〜' . (int)substr($e, 0, 4) . '年' . (int)substr($e, 5, 2) . '月)';
+}

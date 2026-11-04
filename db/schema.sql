@@ -117,12 +117,20 @@ CREATE TABLE stocktakes (
     UNIQUE(year_month, material_id)
 );
 
--- 酒税(ロット別)。納付予定額は詰口量から計算、ここには記録だけ持つ
-CREATE TABLE lot_tax (
-    lot_id INTEGER PRIMARY KEY REFERENCES brewing_lots(id),
-    tax_amount INTEGER,
+-- 酒税の納付記録(月単位)。納付予定額は詰口量から都度計算し、ここには納付の事実だけ持つ
+-- (酒税は同じ年月のロットの詰口量を合計して計算するため、記録も月単位)
+CREATE TABLE tax_payments (
+    year_month TEXT PRIMARY KEY,   -- ロットの年月 例 2609
     paid INTEGER DEFAULT 0,
+    paid_amount INTEGER,
     paid_date TEXT
 );
+
+-- 初期設定
+INSERT INTO settings(key, value) VALUES
+    ('liquor_tax_rate_per_kl', '100000'),    -- 酒税率(円/kL)
+    ('liquor_tax_reduction_percent', '80'),  -- 軽減税率(税額の何%か)
+    ('fiscal_start_month', '4'),             -- 酒類の年度(詰口サマリ)の開始月
+    ('closing_month', '8');                  -- 自社の決算月(棚卸し)
 
 -- 1ml原価は保存せず、ロットの使用原料金額 ÷ 詰口総ml で都度計算(単価修正が即反映されるため)
