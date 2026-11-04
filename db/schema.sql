@@ -84,6 +84,7 @@ CREATE TABLE stock_movements (
     reason TEXT NOT NULL,          -- 仕入/精米/発芽/製麹/醸造/詰口/棚卸調整 等
     amount_yen REAL,               -- 仕入(入庫)の金額。後から修正可
     process_id INTEGER REFERENCES process_events(id),
+    bottling_event_id INTEGER REFERENCES bottling_events(id),  -- 詰口で自動減算した瓶・ラベル
     lot_id INTEGER REFERENCES brewing_lots(id),
     supplier_id INTEGER REFERENCES suppliers(id),
     note TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -100,7 +101,8 @@ CREATE TABLE bottling_events (
     capacity_id INTEGER REFERENCES capacities(id),
     qty REAL NOT NULL,             -- 本数
     channel_id INTEGER REFERENCES sales_channels(id),
-    address TEXT, note TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    address TEXT, note TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    batch_id INTEGER                -- 同じ入力で作られた行のまとめ(先頭行のid)。削除は batch 単位
 );
 CREATE INDEX idx_bot_date ON bottling_events(entry_date);
 

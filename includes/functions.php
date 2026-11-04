@@ -66,11 +66,12 @@ function materialsByKind(PDO $pdo, ?array $kinds = null): array {
 
 /** 在庫台帳に1行追加(正=入庫 負=出庫)。トランザクションは呼び出し側で管理 */
 function addMovement(PDO $pdo, string $date, int $materialId, float $qty, string $reason,
-    ?int $processId = null, ?int $lotId = null, ?float $amountYen = null, ?int $supplierId = null, ?string $note = null): void {
+    ?int $processId = null, ?int $lotId = null, ?float $amountYen = null, ?int $supplierId = null, ?string $note = null,
+    ?int $bottlingEventId = null): void {
     $st = $pdo->prepare('INSERT INTO stock_movements
-        (entry_date, material_id, qty, reason, amount_yen, process_id, lot_id, supplier_id, note)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $st->execute([$date, $materialId, $qty, $reason, $amountYen, $processId, $lotId, $supplierId, $note]);
+        (entry_date, material_id, qty, reason, amount_yen, process_id, lot_id, supplier_id, note, bottling_event_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $st->execute([$date, $materialId, $qty, $reason, $amountYen, $processId, $lotId, $supplierId, $note, $bottlingEventId]);
 }
 
 /** 数量の表示用整形(浮動小数の誤差を丸め、末尾の0を除く) */
