@@ -1,0 +1,12 @@
+# ディレクトリ一覧を出さない
+Options -Indexes
+
+# 設定・説明ファイルや隠しファイルを公開しない
+<FilesMatch "^(\.|CLAUDE\.md$|README|.*\.(md|sql|sh|log|db)$)">
+    Require all denied
+</FilesMatch>
+
+# 検索エンジンに載せない
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
