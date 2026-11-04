@@ -17,6 +17,7 @@ $navItems = [
     ['label' => '帳簿・集計', 'items' => [
         ['在庫・棚卸し', 'stocktake.php'],
         ['詰口台帳', 'bottling_results.php'],
+        ['ロット原価', 'lot_cost.php'],
         ['SKU・ロット一覧', 'sku_lot_list.php'],
         ['酒税', 'tax.php'],
     ]],

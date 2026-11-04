@@ -20,7 +20,7 @@ $defs = [
             ['name', '名称', 'text', true],
             ['unit', '単位', 'text', true],
             ['kind', '種別', 'select', true, $kinds],
-            ['usage_per_ml', '詰口1mlあたり使用量', 'number', false],
+            ['usage_per_ml', '詰口1mlあたり使用量(資材の単位/ml。設定すると詰口時に自動で減る)', 'number', false],
             ['capacity_id', '容量(種別が瓶のとき)', 'select', false, ['ref' => ['capacities', 'id', 'label']]],
             ['sku_id', 'SKU(種別がラベルのとき)', 'select', false, ['ref' => ['skus', 'id', 'code']]],
         ]],

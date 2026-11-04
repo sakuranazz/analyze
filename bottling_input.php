@@ -91,6 +91,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($mid) addMovement($pdo, $date, (int)$mid, -$cnt, '詰口(瓶)', null, $lotId, null, null, null, $eid);
                 else $missing[$caps[$cid][0] . 'の瓶'] = true;
             }
+            // 「詰口1mlあたり使用量」を設定した資材(乳酸・酵母など)は、総容量に応じて自動で減らす
+            $perMl = $pdo->query("SELECT id, name, usage_per_ml FROM materials WHERE is_active = 1 AND usage_per_ml IS NOT NULL AND usage_per_ml > 0")->fetchAll();
+            foreach ($perMl as $pm) {
+                addMovement($pdo, $date, (int)$pm['id'], -round((float)$pm['usage_per_ml'] * $totalMl, 6), '詰口(使用量換算)', null, $lotId, null, null, null, $batch);
+            }
+
             $labelQ->execute([$skuId]);
             $labelMat = $labelQ->fetchColumn();
             if ($labelMat) addMovement($pdo, $date, (int)$labelMat, -$bottleTotal, '詰口(ラベル)', null, $lotId, null, null, null, $batch);
@@ -205,7 +211,7 @@ $capOpts = function (string $ph = '容量') use ($capList) {
 
 <div class="panel">
     <h2>詰口(入庫)</h2>
-    <p class="muted">総容量から容量ごとの本数を引いた残りは、試飲用として自動登録します。瓶(容量ごと)とラベル(SKUごと)の在庫も自動で減ります。</p>
+    <p class="muted">総容量から容量ごとの本数を引いた残りは、試飲用として自動登録します。瓶(容量ごと)・ラベル(SKUごと)・「詰口1mlあたり使用量」を設定した資材の在庫も自動で減ります。</p>
     <form method="post" class="stack">
         <?= csrfField() ?>
         <input type="hidden" name="action" value="bottling">

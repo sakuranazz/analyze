@@ -110,7 +110,7 @@ CREATE INDEX idx_bot_date ON bottling_events(entry_date);
 -- 目視棚卸し(月末の実数。台帳との乖離は調整として stock_movements に反映)
 CREATE TABLE stocktakes (
     id INTEGER PRIMARY KEY,
-    year_month TEXT NOT NULL,      -- 例 2610
+    year_month TEXT NOT NULL,      -- 例 2026-10
     material_id INTEGER NOT NULL REFERENCES materials(id),
     counted_qty REAL NOT NULL,
     note TEXT,
