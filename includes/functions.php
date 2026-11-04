@@ -49,3 +49,36 @@ function redirect(string $to): void {
     header('Location: ' . $to);
     exit;
 }
+
+// ===== 在庫台帳 =====
+/** 種別(materials.kind)で資材を取得。$kinds は配列。null なら全資材 */
+function materialsByKind(PDO $pdo, ?array $kinds = null): array {
+    $sql = 'SELECT id, name, unit, kind FROM materials WHERE is_active = 1';
+    $args = [];
+    if ($kinds) {
+        $sql .= ' AND kind IN (' . implode(',', array_fill(0, count($kinds), '?')) . ')';
+        $args = $kinds;
+    }
+    $st = $pdo->prepare($sql . ' ORDER BY category_id, id');
+    $st->execute($args);
+    return $st->fetchAll();
+}
+
+/** 在庫台帳に1行追加(正=入庫 負=出庫)。トランザクションは呼び出し側で管理 */
+function addMovement(PDO $pdo, string $date, int $materialId, float $qty, string $reason,
+    ?int $processId = null, ?int $lotId = null, ?float $amountYen = null, ?int $supplierId = null, ?string $note = null): void {
+    $st = $pdo->prepare('INSERT INTO stock_movements
+        (entry_date, material_id, qty, reason, amount_yen, process_id, lot_id, supplier_id, note)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $st->execute([$date, $materialId, $qty, $reason, $amountYen, $processId, $lotId, $supplierId, $note]);
+}
+
+/** 数量の表示用整形(浮動小数の誤差を丸め、末尾の0を除く) */
+function fmtQty($v): string {
+    $s = rtrim(rtrim(number_format((float)$v, 3, '.', ''), '0'), '.');
+    return $s === '-0' ? '0' : $s;
+}
+
+function validDate(string $d): bool {
+    return (bool)preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $d, $m) && checkdate((int)$m[2], (int)$m[3], (int)$m[1]);
+}

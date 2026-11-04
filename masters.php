@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/header.php';
 
 // 項目定義: [列名, 表示名, 種別(text|number|select), 必須, 選択肢(select用: 配列 or ['ref'=>[表,値列,表示列]])]
 $kinds = [
-    'brown_rice' => '玄米', 'polished_rice' => '白米', 'koji' => '麹', 'lactic' => '乳酸',
+    'brown_rice' => '玄米', 'germinated_rice' => '発芽玄米', 'polished_rice' => '白米', 'koji' => '麹', 'lactic' => '乳酸',
     'yeast' => '酵母', 'seed_koji' => '種麹', 'bottle' => '瓶', 'label' => 'ラベル', 'other' => 'その他',
 ];
 $channelCategories = [

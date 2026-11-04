@@ -19,7 +19,7 @@ CREATE TABLE materials (
     name TEXT NOT NULL,
     unit TEXT NOT NULL DEFAULT 'kg',
     kind TEXT NOT NULL DEFAULT 'other',
-      -- brown_rice / polished_rice / koji / lactic / yeast / seed_koji / bottle / label / other
+      -- brown_rice / germinated_rice / polished_rice / koji / lactic / yeast / seed_koji / bottle / label / other
     capacity_id INTEGER REFERENCES capacities(id),  -- kind=bottle のとき(容量ごと管理)
     sku_id INTEGER REFERENCES skus(id),             -- kind=label のとき(SKUごと管理)
     usage_per_ml REAL,                              -- 詰口1mlあたり使用量(乳酸・酵母・種麹など)
